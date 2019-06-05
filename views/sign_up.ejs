@@ -8,6 +8,39 @@
 <body>
     <div class="uk-position-center">
         <h1>Sign up to StorePix</h1>
+        <form action="/users/sign_up" method="POST">
+            <div class="field uk-margin">
+                <label>Name:</label><br />
+                <div class="uk-inline">
+                    <input class="uk-input" id="name" type="text" placeholder="name">
+                </div>
+            </div>
+
+            <div class="field uk-margin">
+                <label>Email:</label><br />
+                <div class="uk-inline">
+                    <input class="uk-input" id="email" type="text" placeholder="email">
+                </div>
+            </div>
+
+            <div class="field uk-margin">
+                <label>Password:</label><br />
+                <div class="uk-inline">
+                    <input class="uk-input" id="password" type="password" placeholder="password">
+                </div>
+            </div>
+
+            <div class="field uk-margin">
+                <label>Password Confirmation:</label><br />
+                <div class="uk-inline">
+                    <input class="uk-input" id="password_confirmation" type="password" placeholder="confirm password">
+                </div>
+            </div>
+            <button class="uk-button uk-button-secondary" type="submit">sign up!</button>
+            <br /><br /><br />
+            <a href="/users/sign_in" <button class="uk-button uk-button-default uk-button-small">Sign in!</button></a>
+        </form>
+
 
     </div>
 
