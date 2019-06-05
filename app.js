@@ -1,23 +1,38 @@
 const express = require('express');
 const expressLayout = require('express-ejs-layouts');
-
+require('dotenv').config();
+const {
+    Client
+} = require('pg');
 
 const app = express();
 
-// Create db
-const connectionSTR = {
-    user: process.env.user,
-    host: process.env.host,
-    database: process.env.database,
-    password: process.env.password,
-    port: process.env.port
-};
 
-const initOptions = {
-    schema: "StorePix"
-};
-const pgp = require('pg-promise')(initOptions);
-const db = pgp(connectionSTR);
+// Create db
+const client = new Client({
+    user: process.env.PGUSER,
+    host: process.env.PGHOST,
+    database: process.env.PGDATABASE,
+    password: process.env.PGPASSWORD,
+    port: process.env.PGPORT,
+    currentSchema: 'StorePix'
+})
+
+// Connect Client
+function connectClient() {
+    console.log("started");
+    client.connect(err => {
+        if (err) {
+            console.error('client connection error.\n', err.stack);
+        } else {
+            console.log('Database connection SUCCESSFUL');
+        }
+    });
+}
+//Disconnect Client
+function disconnectClient() {
+    client.end();
+}
 
 // View engine
 app.use(expressLayout);
