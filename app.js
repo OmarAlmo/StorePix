@@ -1,7 +1,23 @@
 const express = require('express');
 const expressLayout = require('express-ejs-layouts');
+
+
 const app = express();
 
+// Create db
+const connectionSTR = {
+    user: process.env.user,
+    host: process.env.host,
+    database: process.env.database,
+    password: process.env.password,
+    port: process.env.port
+};
+
+const initOptions = {
+    schema: "StorePix"
+};
+const pgp = require('pg-promise')(initOptions);
+const db = pgp(connectionSTR);
 
 // View engine
 app.use(expressLayout);
