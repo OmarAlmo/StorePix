@@ -1,38 +1,23 @@
 const express = require('express');
 const expressLayout = require('express-ejs-layouts');
+const mongoose = require('mongoose');
 require('dotenv').config();
-const {
-    Client
-} = require('pg');
 
 const app = express();
 
 
 // Create db
-const client = new Client({
-    user: process.env.PGUSER,
-    host: process.env.PGHOST,
-    database: process.env.PGDATABASE,
-    password: process.env.PGPASSWORD,
-    port: process.env.PGPORT,
-    currentSchema: 'StorePix'
-})
+const db = require('./config/keys').MongoURI;
 
-// Connect Client
-function connectClient() {
-    console.log("started");
-    client.connect(err => {
-        if (err) {
-            console.error('client connection error.\n', err.stack);
-        } else {
-            console.log('Database connection SUCCESSFUL');
+// Connect to db
+mongoose
+    .connect(
+        db, {
+            useNewUrlParser: true
         }
-    });
-}
-//Disconnect Client
-function disconnectClient() {
-    client.end();
-}
+    )
+    .then(console.log('Connection to db successful'))
+    .catch(err => console.log(err));
 
 // View engine
 app.use(expressLayout);
