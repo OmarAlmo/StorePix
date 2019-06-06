@@ -19,14 +19,14 @@ module.exports = passport.use(new localStrategy({
             }
             if (!user) {
                 return done(null, false, {
-                    message: 'Email is incorrect.'
+                    message: 'Email is incorrect or not registered'
                 });
             }
 
             bcrypt.compare(password, user.password, function (err, res) {
                 if (err) {
                     return done(null, false, {
-                        message: 'Password is incorrect.'
+                        message: 'Password is incorrect'
                     });
                 }
             });
@@ -45,3 +45,13 @@ passport.deserializeUser(function (id, done) {
         done(err, user);
     });
 });
+
+module.exports = {
+    ensureAuthenticated: function (req, res, next) {
+        if (req.isAuthenticated()) {
+            return next();
+        } else {
+            res.redirect('/users/login');
+        }
+    }
+};

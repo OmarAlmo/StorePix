@@ -20,14 +20,7 @@ router.post('/login', function (req, res, next) {
     console.log(req.body);
 });
 
-// router.post('/login',
-//     passort.authenticate('local', {
-//         successRedirect: '/dashboard',
-//         failureRedirect: '/users/login',
-//         failureFlash: true
-//     }));
-
-// Sign out
+// Logout
 router.get('/logout', function (req, res) {
     req.logout();
     res.redirect('/');
