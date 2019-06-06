@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Login</title>
+</head>
+
+<body>
+    <div class="uk-position-center">
+        <h1>Login to StorePix</h1>
+
+        <form action="/users/login" method="POST">
+            <div class="field uk-margin">
+                <label>Name:</label><br />
+                <div class="uk-inline">
+                    <span class="uk-form-icon" uk-icon="icon: user"></span>
+                    <input class="uk-input" type="text" placeholder="name">
+                </div>
+            </div>
+
+            <div class="field uk-margin">
+                <label>Password:</label><br />
+                <div class="uk-inline">
+                    <span class="uk-form-icon uk-form-icon-flip" uk-icon="icon: lock"></span>
+                    <input class="uk-input" type="password" placeholder="password">
+                </div>
+            </div>
+
+            <button class="uk-button uk-button-secondary" type="submit">Login!</button>
+            <br /><br /><br />
+            <a href="/users/register" <button class="uk-button uk-button-default uk-button-small">Sign up!</button></a>
+        </form>
+
+    </div>
+
+</body>
+
+</html>

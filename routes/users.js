@@ -1,8 +1,96 @@
 const express = require('express');
 const router = express.Router();
+const passort = require('passport');
+const bcrypt = require('bcrypt');
+const saltRounds = 10;
 
-router.get('/sign_in', (req, res) => res.render('sign_in'));
-router.get('/sign_up', (req, res) => res.render('sign_up'));
+const User = require('../models/User');
 
+const EMAIL_REGEX = '/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/';
+
+router.get('/login', (req, res) => res.render('login'));
+router.get('/register', (req, res) => res.render('register'));
+
+// Authenticate sign in and sign in if successful
+router.post('/login', passort.authenticate('local', {
+    successRedirect: '/dashboard',
+    failureRedirect: 'users/login'
+}))
+
+// Sign out
+router.get('/logout', function (req, res) {
+    req.logout();
+    res.redirect('/');
+});
+
+// Registration
+router.post('/register', function (req, res) {
+
+    var errors = [];
+    const {
+        name,
+        email,
+        password,
+        password_confirmation
+    } = req.body;
+
+    // Check all fields are completed
+    if (!name || !email || !password || !password_confirmation) {
+        errors.push({
+            msg: "All fields must be completed."
+        })
+    }
+    if (email.match(EMAIL_REGEX)) {
+        errors.push({
+            msg: "Email is not valid."
+        })
+    }
+    if (password != password_confirmation) {
+        errors.push({
+            msg: "Passwords do not match."
+        })
+    }
+    if (password.length < 8) {
+        errors.push({
+            msg: "Password must be minimum 8 characters long."
+        })
+    }
+
+    if (errors.length > 0) {
+        res.render('register', {
+            errors
+        })
+    } else {
+        User.findOne({
+                email: email
+            })
+            .then(user => {
+                if (user) {
+                    errors.push({
+                        msg: "email is registered."
+                    });
+                    res.render('register', {
+                        errors
+                    });
+                } else {
+                    const newUser = new User({
+                        name,
+                        email,
+                        password
+                    });
+                    bcrypt.hash(newUser.password, saltRounds, function (err, hash) {
+                        if (err) {
+                            throw err;
+                        } else {
+                            newUser.password = hash;
+                            newUser.save()
+                                .then(console.log('User registred successfully.'))
+                            res.redirect('/dashboard');
+                        }
+                    });
+                }
+            })
+    }
+})
 
 module.exports = router;

@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Register</title>
+</head>
+
+<body>
+    <div class="uk-position-center">
+        <h1>Register to StorePix</h1>
+        <% include partials/_alerts %>
+        <form action="/users/register" method="POST">
+            <div class="field uk-margin">
+                <label>Name:</label><br />
+                <div class="uk-inline">
+                    <input class="uk-input" id="name" type="name" placeholder="name" name="name">
+                </div>
+            </div>
+
+            <div class="field uk-margin">
+                <label>Email:</label><br />
+                <div class="uk-inline">
+                    <input class="uk-input" id="email" type="text" placeholder="email" name="email">
+                </div>
+            </div>
+
+            <div class="field uk-margin">
+                <label>Password:</label><br />
+                <div class="uk-inline">
+                    <input class="uk-input" id="password" type="password" placeholder="password" name="password">
+                </div>
+            </div>
+
+            <div class="field uk-margin">
+                <label">Password Confirmation:</label><br />
+                    <div class="uk-inline">
+                        <input class="uk-input" id="password_confirmation" type="password"
+                            placeholder="confirm password" name="password_confirmation">
+                    </div>
+            </div>
+            <button class="uk-button uk-button-secondary" type="submit">Register!</button>
+            <br /><br /><br />
+            <a href="/users/login" <button class="uk-button uk-button-default uk-button-small">Login!</button></a>
+        </form>
+
+
+    </div>
+
+</body>
+
+</html>
