@@ -1,5 +1,41 @@
+
 <% if(typeof errors != 'undefined'){ %>
-<% errors.forEach(function(error) { %>
-<%= error.msg %>
-<% }); %>
+<div>
+    <% errors.forEach(function(error) { %>
+        <%= error.msg %>
+    <% }); %>
+</div>
 <% } %>
+
+
+
+<% if(success_msg != ''){ %>
+<div>
+    <%= success_msg %>
+    <button type="button" class="close uk-alert-close" data-dismiss="alert" aria-label="close">
+    <span aria-hidden="true">&times;</span>
+    </button>
+</div>
+<% } %>
+
+<% if(error_msg != ''){ %>
+<div>
+    <%= error_msg %>
+    <button type="button" class="close uk-alert-close" data-dismiss="alert" aria-label="close">
+    <span aria-hidden="true">&times;</span>
+    </button>
+</div>
+<% } %>
+
+
+
+<% if(error != ''){ %>
+<div>
+    <%= error %>
+    <button type="button" class="close uk-alert-close" data-dismiss="alert" aria-label="close">
+    <span aria-hidden="true">&times;</span>
+    </button>
+</div>
+<% } %>
+
+

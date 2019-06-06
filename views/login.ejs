@@ -7,28 +7,28 @@
 
 <body>
     <div class="uk-position-center">
-        <h1>Login to StorePix</h1>
-
+    <% include partials/_alerts %>
+        <h1>Login to StorePix</h1>    
         <form action="/users/login" method="POST">
             <div class="field uk-margin">
-                <label>Name:</label><br />
+                <label>Email:</label><br />
                 <div class="uk-inline">
                     <span class="uk-form-icon" uk-icon="icon: user"></span>
-                    <input class="uk-input" type="text" placeholder="name">
+                    <input class="uk-input" type="text" id="email" placeholder="email" name="email">
                 </div>
             </div>
 
             <div class="field uk-margin">
                 <label>Password:</label><br />
                 <div class="uk-inline">
-                    <span class="uk-form-icon uk-form-icon-flip" uk-icon="icon: lock"></span>
-                    <input class="uk-input" type="password" placeholder="password">
+                    <span class="uk-form-icon uk-form-icon" uk-icon="icon: lock"></span>
+                    <input class="uk-input" type="password" id="password" placeholder="password" name="password">
                 </div>
             </div>
 
             <button class="uk-button uk-button-secondary" type="submit">Login!</button>
             <br /><br /><br />
-            <a href="/users/register" <button class="uk-button uk-button-default uk-button-small">Sign up!</button></a>
+            <a href="/users/register" ><button class="uk-button uk-button-default uk-button-small">Register</button></a>
         </form>
 
     </div>

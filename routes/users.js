@@ -1,21 +1,31 @@
 const express = require('express');
 const router = express.Router();
+const validator = require("email-validator");
 const passort = require('passport');
 const bcrypt = require('bcrypt');
 const saltRounds = 10;
 
 const User = require('../models/User');
 
-const EMAIL_REGEX = '/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/';
-
 router.get('/login', (req, res) => res.render('login'));
 router.get('/register', (req, res) => res.render('register'));
 
 // Authenticate sign in and sign in if successful
-router.post('/login', passort.authenticate('local', {
-    successRedirect: '/dashboard',
-    failureRedirect: 'users/login'
-}))
+router.post('/login', function (req, res, next) {
+    passort.authenticate('local', {
+        successRedirect: '/dashboard',
+        failureRedirect: '/users/login',
+        failureFlash: true
+    })(req, res, next);
+    console.log(req.body);
+});
+
+// router.post('/login',
+//     passort.authenticate('local', {
+//         successRedirect: '/dashboard',
+//         failureRedirect: '/users/login',
+//         failureFlash: true
+//     }));
 
 // Sign out
 router.get('/logout', function (req, res) {
@@ -25,7 +35,7 @@ router.get('/logout', function (req, res) {
 
 // Registration
 router.post('/register', function (req, res) {
-
+    console.log(req.body);
     var errors = [];
     const {
         name,
@@ -34,13 +44,15 @@ router.post('/register', function (req, res) {
         password_confirmation
     } = req.body;
 
+    console.log(req.body);
+
     // Check all fields are completed
     if (!name || !email || !password || !password_confirmation) {
         errors.push({
             msg: "All fields must be completed."
         })
     }
-    if (email.match(EMAIL_REGEX)) {
+    if (!validator.validate(email)) {
         errors.push({
             msg: "Email is not valid."
         })
