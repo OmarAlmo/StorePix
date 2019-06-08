@@ -51,14 +51,6 @@ router.get('/dashboard', ensureAuthenticated, function (req, res) {
 // POST 
 router.post('/upload', function (req, res) {
     upload(req, res, (err) => {
-        // console.log("REQ:", req.file);
-        // console.log("REQ CATEGORY: ", req.body.category);
-        // console.log("REQ PRICE: ", req.body.price);
-        // console.log("REQ PATH: ", req.file.path);
-        // console.log("REQ DEST: ", req.file.destination);
-        // console.log("REQ Buffer: ", req.file.buffer);
-        // console.log("CURRENT USER: ", currentUser._id);
-
         if (err) {
             res.render('dashboard', {
                 msg: err
@@ -68,13 +60,15 @@ router.post('/upload', function (req, res) {
             const newPicture = new Picture({
                 price: req.body.price,
                 description: req.body.category,
-                user: currentUser,
-                img: fs.readFileSync(req.file.path)
+                user: currentUser
             });
-            newPicture.save().then(console.log("Picture added successfully."))
+            newPicture.img.data = fs.readFileSync(req.file.path);
+            newPicture.img.contentType = 'image/png';
+            console.log(newPicture.img.buffer);
+            newPicture.save().then(console.log("Picture added to DB successfully."))
 
             res.render('dashboard', {
-                file: `assets/uploads${req.file.filename}`
+                file: `../assets/uploads/${req.file.filename}`
 
             })
         }
