@@ -1,17 +1,23 @@
 const mongoose = require('mongoose');
 
-const Picture = new mongoose.Schema({
+const PictureSchema = new mongoose.Schema({
+    img: {
+        data: Buffer,
+        contentType: String
+    },
     description: {
         type: [String],
         required: true
     },
     user: {
-        type: User,
-        required: true
+        postedBy: {
+            type: mongoose.Schema.Types.ObjectId,
+            ref: 'User'
+        },
     },
     price: {
         type: Number,
-        default: Date.now
+        required: true
     },
     date: {
         type: Date,
@@ -19,6 +25,6 @@ const Picture = new mongoose.Schema({
     }
 });
 
-const Picture = mongoose.model('Picture', Picture);
+const Picture = mongoose.model('Picture', PictureSchema);
 
 module.exports = Picture;

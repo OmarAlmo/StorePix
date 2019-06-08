@@ -60,6 +60,7 @@ app.set('view engine', 'ejs')
 // static pages (home and register/ login)
 app.use('/', require('./routes/index'));
 app.use('/users', require('./routes/users'));
+app.use('/', require('./routes/dashboard'));
 
 // Route
 const PORT = 8000;

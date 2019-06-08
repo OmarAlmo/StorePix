@@ -17,7 +17,6 @@ router.post('/login', function (req, res, next) {
         failureRedirect: '/users/login',
         failureFlash: true
     })(req, res, next);
-    console.log(req.body);
 });
 
 // Logout
@@ -39,7 +38,7 @@ router.post('/register', function (req, res) {
 
     console.log(req.body);
 
-    // Check all fields are completed
+    // Check fields
     if (!name || !email || !password || !password_confirmation) {
         errors.push({
             msg: "All fields must be completed."
@@ -89,7 +88,7 @@ router.post('/register', function (req, res) {
                         } else {
                             newUser.password = hash;
                             newUser.save()
-                                .then(console.log('User registred successfully.'))
+                                .then(console.log('User registered successfully.'))
                             res.redirect('/dashboard');
                         }
                     });

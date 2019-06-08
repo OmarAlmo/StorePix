@@ -3,13 +3,16 @@
 
 <head>
     <title>StorePix</title>
+    <!-- Uppload -->
+    <script src="https://unpkg.com/uppload/dist/uppload.min.js"></script> 
+    <script type="text/javascript" src="http://code.jquery.com/jquery-1.10.0.min.js"></script>
 </head>
 
 
 <nav class="uk-navbar-container uk-margin" uk-navbar>
     <div class="uk-navbar-left">
 
-        <a class="uk-navbar-item uk-logo" href="#">StorePix</a>
+        <a class="uk-navbar-item uk-logo" href="">StorePix</a>
 
         <ul class="uk-navbar-nav">
         </ul>
@@ -24,13 +27,55 @@
                 <button class="uk-button uk-button-default">Search</button>
             </form>
         </div>
+
+        <a class="uk-button uk-button-default" href="#modal-center" uk-toggle uk-icon="plus"></a>
+        <div id="modal-center" class="uk-flex-top" uk-modal>
+            <div class="uk-modal-dialog uk-modal-body uk-margin-auto-vertical">
+                <div>
+                    <h5>Pix Upload</h5>
+                    <%= typeof msg != 'undefined' ? msg : '' %>
+                    <form action="/upload" method="POST" enctype="multipart/form-data">
+                        <!-- Image uploader-->
+                        <input name="picture" type="file" name="picture"><br/><br/>
+                        <!-- Categories-->
+                        <label>Categories:</label><br/>
+                        <div class="uk-container-xsmall uk-column-1-2" id="categoryCheckboxes">
+                            <input type="checkbox" name="category" value="Background"> Background<br>
+                            <input type="checkbox" name="category" value="Blurs"> Blurs<br>
+                            <input type="checkbox" name="category" value="Colors"> Colors<br>
+                            <input type="checkbox" name="category" value="Fun"> Fun<br>
+                            <input type="checkbox" name="category" value="Luxury"> Luxury<br>
+                            <input type="checkbox" name="category" value="Sports"> Sports<br>
+                            <input type="checkbox" name="category" value="Animals"> Animals<br>
+                            <input type="checkbox" name="category" value="Flowers"> Flowers<br>
+                            <input type="checkbox" name="category" value="Clouds"> Clouds<br>
+                            <input type="checkbox" name="category" value="Nature"> Nature<br>
+                            <input type="checkbox" name="category" value="Random"> Random<br>
+                        </div><br/>
+                        <!-- Price-->
+                        <label>Price:</label><br/>
+                        <input type="number" name="price"><br/><br/>
+                        <!-- Submit-->
+                        <button type="submit" class="btn">Submit Pix</button> <br/><br/>
+                    </form>
+                    <br>
+                </div>
+                <button class="uk-modal-close-default" type="button" uk-close></button>
+            </div>
+        </div>
+
     </div>
     <div class="uk-navbar-right">
-        <a href="/users/logout" <button class="uk-button uk-button-danger">Sign out</button></a>
+        <a href="/users/logout"><button class="uk-button uk-button-danger">Sign out</button></a>
     </div>
 </nav>
 
 <body>
+    <div class="uk-container" id="images_viewer">
+    <h3>Images</h3>
+         <img src="<%= typeof file != 'undefined' ? file : '' %>"> 
+    </div>
+
 
 </body>
 
