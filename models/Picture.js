@@ -2,7 +2,7 @@ const mongoose = require('mongoose');
 
 const PictureSchema = new mongoose.Schema({
     img: {
-        data: Buffer,
+        fieldID: mongoose.Schema.Types.ObjectId,
         contentType: String
     },
     description: {

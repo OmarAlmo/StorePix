@@ -3,9 +3,7 @@
 
 <head>
     <title>StorePix</title>
-    <!-- Uppload -->
-    <script src="https://unpkg.com/uppload/dist/uppload.min.js"></script> 
-    <script type="text/javascript" src="http://code.jquery.com/jquery-1.10.0.min.js"></script>
+    <link rel="stylesheet" type="text/css" href="../assets/css/style.css">
 </head>
 
 
@@ -36,7 +34,7 @@
                     <%= typeof msg != 'undefined' ? msg : '' %>
                     <form action="/upload" method="POST" enctype="multipart/form-data">
                         <!-- Image uploader-->
-                        <input name="picture" type="file" name="picture"><br/><br/>
+                        <input id="file" name="file" type="file" name="file"><br/><br/>
                         <!-- Categories-->
                         <label>Categories:</label><br/>
                         <div class="uk-container-xsmall uk-column-1-2" id="categoryCheckboxes">
@@ -71,12 +69,20 @@
 </nav>
 
 <body>
-    <div class="uk-container" id="images_viewer">
-    <h3>Images</h3>
-         <img src="<%= typeof file != 'undefined' ? file : '' %>"> 
+    <div class="uk-container uk-column-1-5" id="images_viewer">
+        <% if(files) {%>
+            <% files.forEach(function(file){ %>
+                <% if (file.isImage){ %>
+                    <div uk-grid>
+                        <div> <img src="pictures/<%= file.filename %>"> </div>
+                    </div>
+                <% }else { %>
+                    <%file.filename %>
+                <% }%>
+            <%}); %>
+        <% };%>
+            
     </div>
-
-
 </body>
 
 </html>
