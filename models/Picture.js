@@ -4,11 +4,13 @@ const PictureSchema = new mongoose.Schema({
     img: {
         fieldID: mongoose.Schema.Types.ObjectId,
         contentType: String,
-        filenName: String
     },
     description: {
         type: [String],
         required: true
+    },
+    userName: {
+        type: String
     },
     userEmail: {
         type: String

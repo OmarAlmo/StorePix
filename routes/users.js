@@ -1,7 +1,7 @@
 const express = require('express');
 const router = express.Router();
 const validator = require("email-validator");
-const passort = require('passport');
+const passport = require('passport');
 const bcrypt = require('bcrypt');
 const saltRounds = 10;
 
@@ -12,7 +12,7 @@ router.get('/register', (req, res) => res.render('register'));
 
 // Authenticate sign in and sign in if successful
 router.post('/login', function (req, res, next) {
-    passort.authenticate('local', {
+    passport.authenticate('local', {
         successRedirect: '/dashboard',
         failureRedirect: '/users/login',
         failureFlash: true

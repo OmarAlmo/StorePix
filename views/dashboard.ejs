@@ -3,22 +3,17 @@
 
 <head>
     <title>StorePix</title>
-    <link type="text/css" href="assets/css/style.css">
-    <script type="text/javascript" src="assets/javascript/categories.js"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
 </head>
-
-<% include partials/_alerts %>
 <nav class="uk-navbar-container uk-margin" uk-navbar>
     <div class="uk-navbar-left">
-
         <a class="uk-navbar-item uk-logo" href="">StorePix</a>
 
         <ul class="uk-navbar-nav">
         </ul>
 
         <div class="uk-navbar-item">
-            <div class="uk-text-emphasis"><a href="/mypix">My Pix</a></div>
+            <a class="uk-button uk-button-default href="/mypix" style="color: #0267a5;">My Pix</a>
         </div>
 
         <div class="uk-navbar-item">
@@ -39,13 +34,6 @@
                         <input id="file" name="file" type="file" name="file"><br/><br/>
                         <!-- Categories-->
                         <label>Categories:</label><br/>
-                        <script>
-                            function checkboxesCategory() {
-                                var category = document.getElementsByName('category');
-                                console.log(category);
-                                console.log("HEREHEREHERHEH");
-                                }
-                        </script>
                         <div class="uk-container-xsmall uk-column-1-2" id="categoryCheckboxes">
                             <input type="checkbox" name="category" value="Background" onclick="checkboxesCategory"> Background<br>
                             <input type="checkbox" name="category" value="Blurs" onclick="checkboxesCategory"> Blurs<br>
@@ -58,7 +46,6 @@
                             <input type="checkbox" name="category" value="Clouds" onclick="checkboxesCategory"> Clouds<br>
                             <input type="checkbox" name="category" value="Nature" onclick="checkboxesCategory"> Nature<br>
                             <input type="checkbox" name="category" value="Random" onclick="checkboxesCategory"> Random<br>
-                            
                         </div><br/>
                         <!-- Price-->
                         <label>Price:</label><br/>
@@ -74,25 +61,27 @@
 
     </div>
     <div class="uk-navbar-right">
-        <a href="/users/logout"><button class="uk-button uk-button-danger">Sign out</button></a>
+        <a href="/users/logout"><button class="uk-button uk-button-danger" style="background-color:#8B0807">Sign out</button></a>
     </div>
 </nav>
 
 <body>
-    <h1>Pix</h1><hr>
+<center><% include partials/_alerts %></center>
+    <h1><center>Pix</center></h1><hr>
      <div class="uk-container uk-column-1-5" id="images_viewer">
         
         <% if(files) {%>
             <% for(var i=0; i<picturesLists.length; i++) {%>
-            <div>
-                <img src="pictures/<%= files[i].filename %>">
-                <p>$<%= picturesLists[i].price %><br/>
-                <strong>Description Categories:</strong> <%=picturesLists[i].description %><br/>
-                <strong>Posted By:</strong> <%=picturesLists[i].userEmail %></p><br/>
+            <div class="uk-grid-small uk-child-width-expand@s uk-text-center" uk-grid>
+                <div class="uk-card uk-card-default uk-card-body">
+                    <a href="pictures/<%= files[i].filename %>"><img src="pictures/<%= files[i].filename %>"></a>
+                    <p>$<%= picturesLists[i].price %><br/>
+                    <%=picturesLists[i].description %><br/>
+                    <strong>Posted By:</strong> <%=picturesLists[i].userEmail %></p><br/>
+                </div>
             </div>
             <% } %>
         <% };%>
-
     </div>
 
 </body>

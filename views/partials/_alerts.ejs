@@ -1,8 +1,9 @@
 
 <% if(typeof errors != 'undefined'){ %>
-<div>
+<div style="color:red">
     <% errors.forEach(function(error) { %>
-        <%= error.msg %>
+        <p><%= error.msg %><p/>
+        <%= console.log(error) %>
     <% }); %>
 </div>
 <% } %>
@@ -10,28 +11,25 @@
 
 
 <% if(success_msg != ''){ %>
-<div>
+<<div style="color:red">
     <%= success_msg %>
-    <span aria-hidden="true">&times;</span>
-    </button>
+    <span aria-hidden="true"></span>
 </div>
 <% } %>
 
 <% if(error_msg != ''){ %>
-<div>
+<div style="color:red">
     <%= error_msg %>
-    <span aria-hidden="true">&times;</span>
-    </button>
+    <span aria-hidden="true"></span>
 </div>
 <% } %>
 
 
 
 <% if(error != ''){ %>
-<div>
-    <%= error %>
-    <span aria-hidden="true">&times;</span>
-    </button>
+<div style="color:red">
+    <%= error[0] %>
+    <span aria-hidden="true"></span>
 </div>
 <% } %>
 

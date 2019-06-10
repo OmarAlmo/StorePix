@@ -1,9 +1,7 @@
 const express = require('express');
 const router = express.Router();
-const fs = require('fs');
 const path = require('path');
 const mongoose = require('mongoose');
-const crypto = require('crypto');
 const GridFsStorage = require('multer-gridfs-storage')
 const Grid = require('gridfs-stream');
 const {
@@ -35,26 +33,16 @@ const upload = multer({
 });
 
 // Initialize image stream
-const conn = mongoose.createConnection(process.env.MongoURI);
+const conn = mongoose.createConnection(process.env.MongoURI, {
+    useNewUrlParser: true
+});
 var gfs;
 conn.once('open', function () {
     gfs = Grid(conn.db, mongoose.mongo);
     gfs.collection('uploads');
-    // all set!
 })
 
-// save current user for access
 let currentUser;
-
-//
-exports.fetchPictures = function (req, res) {
-    Picture.find({}, {}, function (err, docs) {
-        res.render('dashboard', {
-            "Pictures": docs
-        });
-    });
-};
-
 
 // GET dashboard
 router.get('/dashboard', ensureAuthenticated, (req, res) => {
@@ -80,65 +68,44 @@ router.get('/dashboard', ensureAuthenticated, (req, res) => {
                 res.render('dashboard', {
                     files: files,
                     "picturesLists": docs,
-                    "user": currentUser
+                    "user": currentUser,
                 });
             }
         });
     });
+
 });
 
-
 // POST 
+categoryUtility = require('../config/categoryUtility');
 router.post('/upload', upload.single('file'), function (req, res) {
-    console.log(req.body);
     var errors = [];
-    const {
-        category,
-        price
-    } = req.body;
-
-    pictureData = [req.body.category, req.body.price];
-
-    console.log("CATEGORY LENGTH", req.body.category.length);
-    console.log("CATEGORY", req.body.category);
-    console.log("PRICE", req.body.price);
-    console.log("REQ FILE BOOL", req.file == null);
-    console.log("REQ FILENAME", req.file.filename);
-    console.log("REQ FILE", req.file);
 
     if (req.file == null || !req.body.category || !req.body.price) {
-        errors.push({
-            msg: "All fields must be completed"
-        })
-    }
-    if (req.body.price < 0) {
-        errors.push({
-            msg: "Price is not valid"
-        })
-    }
-    if (req.body.category.length < 2) {
-        errors.push({
-            msg: "Minimum of 2 categories required"
-        })
-    }
-
-    if (errors.length > 0) {
-        res.redirect('dashboard', {
-            errors
-        })
-    } else {
-        const newPicture = new Picture({
-            price: req.body.price,
-            description: req.body.category,
-            userEmail: currentUser.email
-        });
-        newPicture.img.fieldID = req.file.id;
-        newPicture.img.contentType = req.file.mimetype;
-        newPicture.img.fileName = req.file.filename;
-
-        newPicture.save().then(console.log("Picture added to DB successfully."))
+        req.flash("error", "All fields must be completed.");
         res.redirect('dashboard');
     }
+    if (req.body.price < 0) {
+        req.flash("error", "Price is not valid.");
+        res.redirect('dashboard');
+    }
+    if (!categoryUtility.checkCategories) {
+        req.flash("error", "Minimum of 2 categories must be selected.");
+        res.redirect('dashboard');
+    }
+
+    const newPicture = new Picture({
+        price: req.body.price,
+        description: req.body.category,
+        userEmail: currentUser.email,
+        userName: currentUser.name
+    });
+    newPicture.img.fieldID = req.file.id;
+    newPicture.img.contentType = req.file.mimetype;
+
+    newPicture.save().then(console.log("Picture added to DB successfully."))
+    res.redirect('dashboard');
+
 });
 
 //To render images

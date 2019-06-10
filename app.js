@@ -39,10 +39,8 @@ app.use(function (req, res, next) {
 })
 
 // Create and connect to db
-const db = require('./config/keys').MongoURI;
-
 const connection = mongoose
-    .connect(db, {
+    .connect(process.env.MongoURI, {
         useNewUrlParser: true,
     })
     .then(res => {
