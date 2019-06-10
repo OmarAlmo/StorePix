@@ -16,6 +16,9 @@ app.use(bodyParser.urlencoded({
     extended: true
 }));
 app.use(flash());
+app.use(bodyParser.urlencoded({
+    extended: true
+}));
 // Trust proxy just in case for secure session to be accepted
 app.set('trust proxy', 1)
 app.use(
@@ -61,6 +64,7 @@ app.set('view engine', 'ejs')
 app.use('/', require('./routes/index'));
 app.use('/users', require('./routes/users'));
 app.use('/', require('./routes/dashboard'));
+
 
 // Route
 const PORT = 8000;

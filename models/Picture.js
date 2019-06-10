@@ -3,17 +3,15 @@ const mongoose = require('mongoose');
 const PictureSchema = new mongoose.Schema({
     img: {
         fieldID: mongoose.Schema.Types.ObjectId,
-        contentType: String
+        contentType: String,
+        filenName: String
     },
     description: {
         type: [String],
         required: true
     },
-    user: {
-        postedBy: {
-            type: mongoose.Schema.Types.ObjectId,
-            ref: 'User'
-        },
+    userEmail: {
+        type: String
     },
     price: {
         type: Number,

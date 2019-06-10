@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>StorePix</title>
+    <link rel="stylesheet" type="text/css" href="../assets/css/style.css">
+</head>
+
+
+<nav class="uk-navbar-container uk-margin" uk-navbar>
+    <div class="uk-navbar-left">
+
+        <a class="uk-navbar-item uk-logo" href="">StorePix</a>
+
+        <ul class="uk-navbar-nav">
+        </ul>
+
+        <div class="uk-navbar-item">
+            <div class="uk-text-emphasis"><a href="/mypix">My Pix</a></div>
+        </div>
+
+        <div class="uk-navbar-item">
+            <form action="javascript:void(0)">
+                <input class="uk-input uk-form-width-small" type="text" placeholder="Search pictures">
+                <button class="uk-button uk-button-default">Search</button>
+            </form>
+        </div>
+
+        <a class="uk-button uk-button-default" href="#modal-center" uk-toggle uk-icon="plus"></a>
+        <div id="modal-center" class="uk-flex-top" uk-modal>
+            <div class="uk-modal-dialog uk-modal-body uk-margin-auto-vertical">
+                <div>
+                    <h5>Pix Upload</h5>
+                    <%= typeof msg != 'undefined' ? msg : '' %>
+                    <form action="/upload" method="POST" enctype="multipart/form-data">
+                        <!-- Image uploader-->
+                        <input id="file" name="file" type="file" name="file"><br/><br/>
+                        <!-- Categories-->
+                        <label>Categories:</label><br/>
+                        <div class="uk-container-xsmall uk-column-1-2" id="categoryCheckboxes">
+                            <input type="checkbox" name="category" value="Background"> Background<br>
+                            <input type="checkbox" name="category" value="Blurs"> Blurs<br>
+                            <input type="checkbox" name="category" value="Colors"> Colors<br>
+                            <input type="checkbox" name="category" value="Fun"> Fun<br>
+                            <input type="checkbox" name="category" value="Luxury"> Luxury<br>
+                            <input type="checkbox" name="category" value="Sports"> Sports<br>
+                            <input type="checkbox" name="category" value="Animals"> Animals<br>
+                            <input type="checkbox" name="category" value="Flowers"> Flowers<br>
+                            <input type="checkbox" name="category" value="Clouds"> Clouds<br>
+                            <input type="checkbox" name="category" value="Nature"> Nature<br>
+                            <input type="checkbox" name="category" value="Random"> Random<br>
+                        </div><br/>
+                        <!-- Price-->
+                        <label>Price:</label><br/>
+                        <input type="number" name="price"><br/><br/>
+                        <!-- Submit-->
+                        <button type="submit" class="btn">Submit Pix</button> <br/><br/>
+                    </form>
+                    <br>
+                </div>
+                <button class="uk-modal-close-default" type="button" uk-close></button>
+            </div>
+        </div>
+
+    </div>
+    <div class="uk-navbar-right">
+        <a href="/users/logout"><button class="uk-button uk-button-danger">Sign out</button></a>
+    </div>
+</nav>
+
+<body>
+    <div class="uk-container uk-column-1-5" id="images_viewer">
+        <% if(files) {%>
+            <% files.forEach(function(file){ %>
+                <% if (file.isImage){ %>
+                    <div uk-grid>
+                        <div> <a href="" ><img src="pictures/<%= file.filename %>"></a> </div>
+                    </div>
+                <% }else { %>
+                    <%file.filename %>
+                <% }%>
+            <%}); %>
+        <% };%>
+            
+    </div>
+</body>
+
+</html>

@@ -10,6 +10,7 @@ const {
     ensureAuthenticated
 } = require('../config/passport');
 
+
 const Picture = require('../models/Picture');
 const User = require('../models/User');
 
@@ -42,51 +43,102 @@ conn.once('open', function () {
     // all set!
 })
 
-
 // save current user for access
 let currentUser;
+
+//
+exports.fetchPictures = function (req, res) {
+    Picture.find({}, {}, function (err, docs) {
+        res.render('dashboard', {
+            "Pictures": docs
+        });
+    });
+};
+
 
 // GET dashboard
 router.get('/dashboard', ensureAuthenticated, (req, res) => {
     currentUser = req.user;
 
     gfs.files.find().toArray((err, files) => {
-        if (!files || files.length === 0) {
-            res.render('dashboard', {
-                files: false
-            });
-        } else {
-            files.map(file => {
-                if (file.contentType === 'image/jpeg' ||
-                    file.contentType === 'image/jpg' ||
-                    file.contentType === 'image/png'
-                ) {
-                    file.isImage = true;
-                } else {
-                    file.isImage = false;
-                }
-            });
-            res.render('dashboard', {
-                files: files
-            });
-        }
+        Picture.find({}, {}, function (err, docs) {
+            if (!files || files.length === 0) {
+                res.render('dashboard', {
+                    files: false
+                });
+            } else {
+                files.map(file => {
+                    if (file.contentType === 'image/jpeg' ||
+                        file.contentType === 'image/jpg' ||
+                        file.contentType === 'image/png'
+                    ) {
+                        file.isImage = true;
+                    } else {
+                        file.isImage = false;
+                    }
+                });
+                res.render('dashboard', {
+                    files: files,
+                    "picturesLists": docs,
+                    "user": currentUser
+                });
+            }
+        });
     });
-
 });
+
 
 // POST 
 router.post('/upload', upload.single('file'), function (req, res) {
-    const newPicture = new Picture({
-        price: req.body.price,
-        description: req.body.category,
-        user: currentUser
-    });
-    newPicture.img.fieldID = req.file.id;
-    newPicture.img.contentType = req.file.mimetype;
+    console.log(req.body);
+    var errors = [];
+    const {
+        category,
+        price
+    } = req.body;
 
-    newPicture.save().then(console.log("Picture added to DB successfully."))
+    pictureData = [req.body.category, req.body.price];
 
-    res.redirect('/dashboard');
+    console.log("CATEGORY LENGTH", req.body.category.length);
+    console.log("CATEGORY", req.body.category);
+    console.log("PRICE", req.body.price);
+    console.log("REQ FILE BOOL", req.file == null);
+    console.log("REQ FILENAME", req.file.filename);
+    console.log("REQ FILE", req.file);
+
+    if (req.file == null || !req.body.category || !req.body.price) {
+        errors.push({
+            msg: "All fields must be completed"
+        })
+    }
+    if (req.body.price < 0) {
+        errors.push({
+            msg: "Price is not valid"
+        })
+    }
+    if (req.body.category.length < 2) {
+        errors.push({
+            msg: "Minimum of 2 categories required"
+        })
+    }
+
+    if (errors.length > 0) {
+        res.redirect('dashboard', {
+            errors
+        })
+    } else {
+        const newPicture = new Picture({
+            price: req.body.price,
+            description: req.body.category,
+            userEmail: currentUser.email
+        });
+        newPicture.img.fieldID = req.file.id;
+        newPicture.img.contentType = req.file.mimetype;
+        newPicture.img.fileName = req.file.filename;
+
+        newPicture.save().then(console.log("Picture added to DB successfully."))
+        res.redirect('dashboard');
+    }
 });
 
 //To render images
@@ -110,5 +162,11 @@ router.get('/pictures/:filename', (req, res) => {
         }
     });
 });
+
+
+router.get('/mypix', (req, res) => {
+
+    res.render('mypix');
+})
 
 module.exports = router;
