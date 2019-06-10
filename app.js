@@ -5,11 +5,15 @@ const passport = require('passport');
 const bodyParser = require('body-parser');
 const flash = require('connect-flash');
 const session = require('express-session');
+const helmet = require('helmet')
 
 
 require('dotenv').config();
 
 const app = express();
+
+// Helmet
+app.use(helmet())
 
 // Addition app configs
 app.use(bodyParser.urlencoded({
@@ -29,6 +33,7 @@ app.use(
         saveUninitialized: false
     })
 );
+
 
 // Global var
 app.use(function (req, res, next) {
@@ -67,5 +72,5 @@ app.use('/', require('./routes/dashboard'));
 
 
 // Route
-const PORT = 8000;
+const PORT = process.env.PORT || 8000;
 app.listen(PORT, console.log('Server started on port 8000'));
