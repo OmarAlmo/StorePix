@@ -1,6 +1,7 @@
 const express = require('express');
 const router = express.Router();
 const path = require('path');
+const bodyParser = require('body-parser');
 const mongoose = require('mongoose');
 const GridFsStorage = require('multer-gridfs-storage')
 const Grid = require('gridfs-stream');
@@ -130,9 +131,37 @@ router.get('/pictures/:filename', (req, res) => {
     });
 });
 
+router.post('/pictures/:filename', (req, res) => {
+
+    const keys = Object.keys(req.body);
+    const picID = keys.toString()
+
+    gfs.remove({
+        filename: req.params.filename,
+        root: 'uploads'
+    }, (err, gridStore) => {
+        if (err) {
+            return res.status(404).json({
+                err: err
+            });
+        } else {
+            req.flash("message", "Picture deleted successfully.");
+            res.redirect('/dashboard');
+        }
+    });
+
+    Picture.deleteOne({
+        _id: picID
+    }, {}, function (err, docs) {
+        if (err) {
+            return handleError(err);
+        } else {
+            console.log("Picture deleted.")
+        }
+    });
+});
 
 router.get('/mypix', (req, res) => {
-
     res.render('mypix');
 })
 

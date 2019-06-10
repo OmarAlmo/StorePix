@@ -42,6 +42,8 @@ app.use(function (req, res, next) {
 const connection = mongoose
     .connect(process.env.MongoURI, {
         useNewUrlParser: true,
+        useFindAndModify: false,
+        useCreateIndex: true
     })
     .then(res => {
         console.log("Database connected.");
