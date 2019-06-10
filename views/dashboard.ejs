@@ -3,7 +3,7 @@
 
 <head>
     <title>StorePix</title>
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+    <link href="https://fonts.googleapis.com/css?family=Montserrat&display=swap" rel="stylesheet"> 
 </head>
 <nav class="uk-navbar-container uk-margin" uk-navbar>
     <div class="uk-navbar-left">
@@ -31,27 +31,27 @@
                     <%= typeof msg != 'undefined' ? msg : '' %>
                     <form action="/upload" method="POST" enctype="multipart/form-data">
                         <!-- Image uploader-->
-                        <input id="file" name="file" type="file" name="file"><br/><br/>
+                        <input class="uk-button uk-button-default uk-button-small" id="file" name="file" type="file" name="file"><br/><br/>
                         <!-- Categories-->
                         <label>Categories:</label><br/>
                         <div class="uk-container-xsmall uk-column-1-2" id="categoryCheckboxes">
-                            <input type="checkbox" name="category" value="Background" onclick="checkboxesCategory"> Background<br>
-                            <input type="checkbox" name="category" value="Blurs" onclick="checkboxesCategory"> Blurs<br>
-                            <input type="checkbox" name="category" value="Colors" onclick="checkboxesCategory"> Colors<br>
-                            <input type="checkbox" name="category" value="Fun" onclick="checkboxesCategory"> Fun<br>
-                            <input type="checkbox" name="category" value="Luxury" onclick="checkboxesCategory"> Luxury<br>
-                            <input type="checkbox" name="category" value="Sports" onclick="checkboxesCategory"> Sports<br>
-                            <input type="checkbox" name="category" value="Animals" onclick="checkboxesCategory"> Animals<br>
-                            <input type="checkbox" name="category" value="Flowers" onclick="checkboxesCategory"> Flowers<br>
-                            <input type="checkbox" name="category" value="Clouds" onclick="checkboxesCategory"> Clouds<br>
-                            <input type="checkbox" name="category" value="Nature" onclick="checkboxesCategory"> Nature<br>
-                            <input type="checkbox" name="category" value="Random" onclick="checkboxesCategory"> Random<br>
+                            <input class="uk-checkbox" type="checkbox" name="category" value="Background" > Background<br>
+                            <input class="uk-checkbox" type="checkbox" name="category" value="Blurs" > Blurs<br>
+                            <input class="uk-checkbox" type="checkbox" name="category" value="Colors" > Colors<br>
+                            <input class="uk-checkbox" type="checkbox" name="category" value="Fun" > Fun<br>
+                            <input class="uk-checkbox" type="checkbox" name="category" value="Luxury" > Luxury<br>
+                            <input class="uk-checkbox" type="checkbox" name="category" value="Sports" > Sports<br>
+                            <input class="uk-checkbox" type="checkbox" name="category" value="Animals" > Animals<br>
+                            <input class="uk-checkbox" type="checkbox" name="category" value="Flowers" > Flowers<br>
+                            <input class="uk-checkbox" type="checkbox" name="category" value="Clouds" > Clouds<br>
+                            <input class="uk-checkbox" type="checkbox" name="category" value="Nature" > Nature<br>
+                            <input class="uk-checkbox" type="checkbox" name="category" value="Random" > Random<br>
                         </div><br/>
                         <!-- Price-->
                         <label>Price:</label><br/>
-                        <input type="number" name="price"><br/><br/>
+                        <input class="uk-input uk-form-width-small" type="number" name="price"><br/><br/>
                         <!-- Submit-->
-                        <button type="submit" class="btn">Submit Pix</button> <br/><br/>
+                        <button type="submit" class="uk-button uk-button-primary">Submit Pix</button> <br/><br/>
                     </form>
                     <br>
                 </div>
@@ -80,14 +80,16 @@
                     <strong>Posted By:</strong> <%=picturesLists[i].userEmail %></p><br/>
                     <% if(picturesLists[i].userEmail == user.email) {%>
                         <form method="POST" action="/pictures/<%= files[i].filename %>?_method=DELETE">
-                            <button name="<%= picturesLists[i]._id %>" class="uk-button uk-button-default">Delete</button>
+                            <button name="<%= picturesLists[i]._id %>" class="uk-button uk-button-danger" style="background-color:#8B0807">
+                                Delete
+                            </button>
                         </form>
                     <% }; %>
                 </div>
             </div>
             <% } %>
         <% } else {%>
-            <h2>No pix</h2>
+            <h2>No pix ☹️</h2>
         <% }; %>
     </div>
 
